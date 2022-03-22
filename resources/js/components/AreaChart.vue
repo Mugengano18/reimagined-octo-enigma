@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h1>Area chart</h1>
+    <!-- date element -->
     <div class="row">
       <div class="col-12">
         <input
@@ -11,6 +12,7 @@
         />
       </div>
     </div>
+    <!-- chart element -->
     <div id="chart">
       <apexchart
         type="area"
@@ -29,6 +31,7 @@ export default {
   components: {
     apexchart: VueApexCharts,
   },
+  // chart variable declations
   data: function() {
       return {
         chartOptions: {
@@ -62,6 +65,7 @@ export default {
       }
     },
   methods: {
+    // getting the info to the areachart
     async getInfo() {
       axios
         .get(
@@ -99,13 +103,12 @@ export default {
             categories:category
           }
         };
-         const newData =forex_data[0].slice(0,100);
-          console.log(newData);
         })
         .catch((e) => {
           this.errors.push(e);
         });
     },
+    // this is setting the today's date when mounted
     getDate() {
       let yourDate = new Date();
       let today = yourDate.toISOString().split("T")[0];
@@ -127,6 +130,7 @@ export default {
             low.push(response.data.results[i].l);
 
           }
+          // passing the api's data to the chart elements
           this.series = [
             {
               data:open
@@ -146,8 +150,6 @@ export default {
             categories:category
           }
         };
-         const newData =forex_data[0].slice(0,100);
-          console.log(newData);
         })
         .catch((e) => {
           this.errors.push(e);
@@ -155,6 +157,7 @@ export default {
     },
   },
   mounted() {
+    // the method to get the date
     this.getDate();
   },
 };

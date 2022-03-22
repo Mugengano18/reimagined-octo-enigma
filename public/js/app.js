@@ -5438,12 +5438,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AreaChart",
   components: {
     apexchart: (vue_apexcharts__WEBPACK_IMPORTED_MODULE_1___default())
   },
+  // chart variable declations
   data: function data() {
     return {
       chartOptions: {
@@ -5471,6 +5474,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   methods: {
+    // getting the info to the areachart
     getInfo: function getInfo() {
       var _this = this;
 
@@ -5505,8 +5509,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                       categories: category
                     }
                   };
-                  var newData = forex_data[0].slice(0, 100);
-                  console.log(newData);
                 })["catch"](function (e) {
                   _this.errors.push(e);
                 });
@@ -5519,6 +5521,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
+    // this is setting the today's date when mounted
     getDate: function getDate() {
       var _this2 = this;
 
@@ -5535,7 +5538,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         for (var i = 0; i < response.data.results.length; i++) {
           high.push(response.data.results[i].h), category.push(response.data.results[i].T), low.push(response.data.results[i].l);
-        }
+        } // passing the api's data to the chart elements
+
 
         _this2.series = [{
           data: open
@@ -5551,14 +5555,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             categories: category
           }
         };
-        var newData = forex_data[0].slice(0, 100);
-        console.log(newData);
       })["catch"](function (e) {
         _this2.errors.push(e);
       });
     }
   },
   mounted: function mounted() {
+    // the method to get the date
     this.getDate();
   }
 });
