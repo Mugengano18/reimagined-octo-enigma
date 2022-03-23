@@ -5,8 +5,7 @@
     <div class="row">
       <div class="col-12">
         <input
-        id="maximum"
-          placeholder="dd-mm-yyyy"
+          id="maximum"
           type="date"
           v-model="date"
           @change="getInfo"
@@ -45,7 +44,7 @@ export default {
       ],
       chartOptions: {
         chart: {
-          height: 500,
+          height: "auto",
           type: "candlestick",
         },
         title: {
@@ -74,8 +73,11 @@ export default {
         },
         xaxis: {
           type: "category",
+          
         },
         yaxis: {
+          tickAmount:15,
+          logarithmic:false,
           tooltip: {
             enabled: true,
           },
@@ -101,12 +103,13 @@ export default {
           let data = [];
           let item = [];
           for (let i = 0; i < response.data.results.length; i++) {
-            category.push(response.data.results[i].T);
+            category.push(response.data.results[i].T.slice(2));
             open.push(response.data.results[i].o);
             high.push(response.data.results[i].h);
             low.push(response.data.results[i].l);
             close.push(response.data.results[i].c);
           }
+
           // getting each element in one array
           category.map((cat, index) => {
             let h = high[index];
@@ -120,12 +123,13 @@ export default {
             });
           });
           data.push(item);
-          const newData = data[0].slice(0,50);
-          this.series = [
-            {
-              data: newData,
-            },
-          ];
+          const newData = data[0].slice(0, 100);
+
+          // this.series = [
+          //   {
+          //     data: data[0],
+          //   },
+          // ];
         })
         .catch((e) => {
           this.errors.push(e);
@@ -134,7 +138,7 @@ export default {
     // this is to bring today's data once the page is mounted
     getDate() {
       let yourDate = new Date();
-      let month = yourDate.getMonth() +1;
+      let month = yourDate.getMonth() + 1;
       let year = yourDate.getUTCFullYear();
       let tDate = yourDate.getDate();
       if (month < 10) {
@@ -145,7 +149,7 @@ export default {
       }
       let maxDate = year + "-" + month + "-" + tDate;
       // this is to disable future dates..
-      document.getElementById("maximum").setAttribute("max",maxDate);
+      document.getElementById("maximum").setAttribute("max", maxDate);
       this.date = maxDate;
       console.log(maxDate);
       axios
@@ -162,7 +166,7 @@ export default {
           let data = [];
           let item = [];
           for (let i = 0; i < response.data.results.length; i++) {
-            category.push(response.data.results[i].T);
+            category.push(response.data.results[i].T.slice(2));
             open.push(response.data.results[i].o);
             high.push(response.data.results[i].h);
             low.push(response.data.results[i].l);
@@ -181,10 +185,10 @@ export default {
             });
           });
           data.push(item);
-          const newData = data[0].slice(0, 50);
+          const newData = data[0].slice(0, 100);
           this.series = [
             {
-              data: newData,
+              data: data[0],
             },
           ];
         })

@@ -1,9 +1,10 @@
 <template>
-  <div class="container pt-5">
-    <h3>Area chart</h3>
+  <div class="container">
+    <h3>CandleStick chart</h3>
+    <!-- CandleStick Chart -->
     <div id="chart">
       <apexchart
-        type="area"
+        type="candlestick"
         height="500"
         :options="chartOptions"
         :series="series"
@@ -17,7 +18,7 @@ import moment from "moment";
 import dayjs from "dayjs";
 import VueApexCharts from "vue-apexcharts";
 export default {
-  name: "AreaChart",
+  name: "HistoryChart",
   components: {
     apexchart: VueApexCharts,
   },
@@ -25,48 +26,32 @@ export default {
     return {
       series: [
         {
-          name: "Open Price",
-          data: [],
-        },
-        {
-          name: "Highest Price",
-          data: [],
-        },
-        {
-          name: "Lowest Price",
-          data: [],
-        },
-        {
-          name: "Closed Price",
+          name: "prices",
           data: [],
         },
       ],
       chartOptions: {
         chart: {
-          type: "area",
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: "smooth",
+          type: "candlestick",
         },
         title: {
-          text: "Market Prices",
+          text: "Market prices",
           align: "left",
+        },
+        tooltip: {
+          enabled: true,
         },
         xaxis: {
           type: "datetime",
-          categories: [],
           labels: {
             formatter: function (val) {
               return dayjs(val).format("MMM DD HH:MM");
             },
           },
         },
-        tooltip: {
-          x: {
-            format: "dd/MM/yy HH:mm",
+        yaxis: {
+          tooltip: {
+            enabled: true,
           },
         },
       },
@@ -103,26 +88,25 @@ export default {
             lowprice.push(response.data.prices[i].low);
             closeprice.push(response.data.prices[i].close);
           }
-          //   getting each element in one array and sending them to the data function elements
+          //   getting each element in one array
+          category.map((cat, index) => {
+            let h = highprice[index];
+            let l = lowprice[index];
+            let o = openprice[index];
+            let c = closeprice[index];
+            // pushing single item
+            item.push({
+              x: cat,
+              y: [o, h, l, c],
+            });
+          });
+          info.push(item);
+          console.log(info[0]);
           this.series = [
             {
-              data: openprice,
-            },
-            {
-              data: highprice,
-            },
-            {
-              data: lowprice,
-            },
-            {
-              data: closeprice,
+              data: info[0],
             },
           ];
-          this.chartOptions = {
-            xaxis: {
-              categories: category,
-            },
-          };
         })
         .catch(function (error) {
           console.error(error);

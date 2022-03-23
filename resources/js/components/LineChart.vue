@@ -1,9 +1,9 @@
 <template>
-  <div class="container pt-5">
-    <h3>Area chart</h3>
+  <div class="container">
+      <h3>Line chart</h3>
     <div id="chart">
       <apexchart
-        type="area"
+        type="line"
         height="500"
         :options="chartOptions"
         :series="series"
@@ -17,7 +17,7 @@ import moment from "moment";
 import dayjs from "dayjs";
 import VueApexCharts from "vue-apexcharts";
 export default {
-  name: "AreaChart",
+  name: "LineChart",
   components: {
     apexchart: VueApexCharts,
   },
@@ -43,13 +43,16 @@ export default {
       ],
       chartOptions: {
         chart: {
-          type: "area",
+          type: "line",
+          zoom: {
+            enabled: true,
+          },
         },
         dataLabels: {
           enabled: false,
         },
         stroke: {
-          curve: "smooth",
+          curve: "straight",
         },
         title: {
           text: "Market Prices",
@@ -62,11 +65,6 @@ export default {
             formatter: function (val) {
               return dayjs(val).format("MMM DD HH:MM");
             },
-          },
-        },
-        tooltip: {
-          x: {
-            format: "dd/MM/yy HH:mm",
           },
         },
       },
@@ -103,7 +101,7 @@ export default {
             lowprice.push(response.data.prices[i].low);
             closeprice.push(response.data.prices[i].close);
           }
-          //   getting each element in one array and sending them to the data function elements
+          //   getting each element in one array
           this.series = [
             {
               data: openprice,
@@ -135,5 +133,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="sass" scoped>
 </style>

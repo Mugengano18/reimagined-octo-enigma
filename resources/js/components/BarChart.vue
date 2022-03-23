@@ -1,9 +1,8 @@
 <template>
-  <div class="container pt-5">
-    <h3>Area chart</h3>
+  <div class="container">
     <div id="chart">
       <apexchart
-        type="area"
+        type="bar"
         height="500"
         :options="chartOptions"
         :series="series"
@@ -17,7 +16,7 @@ import moment from "moment";
 import dayjs from "dayjs";
 import VueApexCharts from "vue-apexcharts";
 export default {
-  name: "AreaChart",
+  name: "Barchart",
   components: {
     apexchart: VueApexCharts,
   },
@@ -25,49 +24,57 @@ export default {
     return {
       series: [
         {
-          name: "Open Price",
+          name: "Open Prices",
           data: [],
         },
         {
-          name: "Highest Price",
+          name: "Highest Prices",
           data: [],
         },
         {
-          name: "Lowest Price",
+          name: "Lowest Prices",
           data: [],
         },
         {
-          name: "Closed Price",
+          name: "Closed prices",
           data: [],
         },
       ],
       chartOptions: {
         chart: {
-          type: "area",
+          type: "bar",
+        },
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: "55%",
+            endingShape: "rounded",
+          },
         },
         dataLabels: {
           enabled: false,
         },
         stroke: {
-          curve: "smooth",
-        },
-        title: {
-          text: "Market Prices",
-          align: "left",
+          show: true,
+          width: 2,
+          colors: ["transparent"],
         },
         xaxis: {
           type: "datetime",
           categories: [],
           labels: {
             formatter: function (val) {
-              return dayjs(val).format("MMM DD HH:MM");
+              return dayjs(val).format("MMM DD HH:mm");
             },
           },
         },
-        tooltip: {
-          x: {
-            format: "dd/MM/yy HH:mm",
+        yaxis: {
+          title: {
+            text: "$ (prices)",
           },
+        },
+        fill: {
+          opacity: 1,
         },
       },
     };
@@ -103,7 +110,7 @@ export default {
             lowprice.push(response.data.prices[i].low);
             closeprice.push(response.data.prices[i].close);
           }
-          //   getting each element in one array and sending them to the data function elements
+          //   getting each element in one array
           this.series = [
             {
               data: openprice,
