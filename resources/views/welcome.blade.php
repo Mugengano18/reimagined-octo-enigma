@@ -20,19 +20,10 @@
 </head>
 <body class="antialiased">
     <div id="app">
-        <div>
-            <history-chart />
+        {{-- Calling the components --}}
+            <api-call/>
         </div>
-        <div>
-            <area-chart />
-        </div>
-        <div>
-            <line-chart />
-        </div>
-        <div>
-            <bar-chart />
-        </div>
-    </div>
+
     <script src="{{ asset('js/app.js') }}"></script>
 
 </body>

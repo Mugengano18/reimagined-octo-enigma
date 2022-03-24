@@ -1,10 +1,9 @@
 <template>
   <div class="container pt-5">
-    <h3>CandleStick chart</h3>
-    <!-- CandleStick Chart -->
+    <h3>ColumnChart</h3>
     <div id="chart">
       <apexchart
-        type="candlestick"
+        type="bar"
         height="500"
         :options="chartOptions"
         :series="series"
@@ -17,39 +16,53 @@
 import dayjs from "dayjs";
 import VueApexCharts from "vue-apexcharts";
 export default {
-  name: "HistoryChart",
+  name: "Columnchart",
   components: {
     apexchart: VueApexCharts,
   },
   props:{
-    allInfo:[]
+    prices:[],
+    time:[]
   },
   data() {
     return {
-      series: this.allInfo,
+      series:this.prices,
       chartOptions: {
         chart: {
-          type: "candlestick",
+          type: "bar",
         },
-        title: {
-          text: "Market prices",
-          align: "left",
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: "100%",
+            endingShape: "rounded",
+          },
         },
-        tooltip: {
-          enabled: true,
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          show: true,
+          width: 3,
+          colors: ["transparent"],
         },
         xaxis: {
           type: "datetime",
+          categories: this.time,
           labels: {
             formatter:(val) => {
-              return dayjs(val).format("MMM DD HH:MM");
+              return dayjs(val).format("MMM DD HH:mm");
             },
           },
         },
+        tooltip: {
+          enabled:true,
+        },
         yaxis: {
-          tooltip: {
-            enabled: true,
-          },
+          tickAmount:6,
+        },
+        fill: {
+          opacity: 1,
         },
       },
     };
